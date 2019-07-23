@@ -16,9 +16,9 @@ from prices import Money
 from saleor.account import events as account_events
 from saleor.account.models import Address, User
 from saleor.checkout import AddressType
-from saleor.graphql.account.mutations import (
+from saleor.graphql.account.mutations.base import SetPassword
+from saleor.graphql.account.mutations.staff import (
     CustomerDelete,
-    SetPassword,
     StaffDelete,
     StaffUpdate,
     UserDelete,
@@ -1842,7 +1842,10 @@ def test_user_avatar_update_mutation(monkeypatch, staff_api_client, media_root):
 
     mock_create_thumbnails = Mock(return_value=None)
     monkeypatch.setattr(
-        ("saleor.graphql.account.mutations." "create_user_avatar_thumbnails.delay"),
+        (
+            "saleor.graphql.account.mutations.staff."
+            "create_user_avatar_thumbnails.delay"
+        ),
         mock_create_thumbnails,
     )
 
